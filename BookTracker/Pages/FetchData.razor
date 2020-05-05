@@ -1,0 +1,44 @@
+﻿@page "/fetchdata"
+
+@using BookTracker.Data
+@inject BookService bookService
+
+<h1>Books</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+                <tr>
+                    <td>@book.Isbn</td>
+                    <td>@book.Title</td>
+                    <td>@book.Genre</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Book> books;
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await BookService.GetBooks();
+    }
+}
